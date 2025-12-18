@@ -15,6 +15,8 @@ public struct EventRollResult: CustomStringConvertible, Sendable {
     public let rescueDeadline: Date?
     /// 是否触发离线战报（仅当有保护或降级）—占位。
     public let battleReportGenerated: Bool
+    /// 是否应用了遮掩（降低高危概率的影响）。
+    public let concealmentApplied: Bool
 
     public var description: String {
         var parts: [String] = []
@@ -26,6 +28,7 @@ public struct EventRollResult: CustomStringConvertible, Sendable {
         if consumedY > 0 { parts.append("y-\(consumedY)") }
         if let rescueDeadline { parts.append("rescue-deadline=\(rescueDeadline)") }
         if battleReportGenerated { parts.append("report") }
+        if concealmentApplied { parts.append("concealed") }
         return parts.joined(separator: " ")
     }
 }
@@ -36,9 +39,13 @@ public actor EventEngine {
     private var lastS3Date: Date?
     private var rescueDeadline: Date?
     private let severityProvider: @Sendable (LuckScore) -> EventSeverity
+    private let concealment: ConcealmentService?
+    private let defense: DefenseService?
 
     public init(
         calendar: Calendar,
+        concealment: ConcealmentService? = nil,
+        defense: DefenseService? = nil,
         severityProvider: @escaping @Sendable (LuckScore) -> EventSeverity = { luck in
             // 默认权重采样
             let weights: [EventSeverity: Double] = [
@@ -66,6 +73,8 @@ public actor EventEngine {
     ) {
         self.calendar = calendar
         self.severityProvider = severityProvider
+        self.concealment = concealment
+        self.defense = defense
     }
 
     /// 离线或在线单次事件判定。
@@ -78,6 +87,15 @@ public actor EventEngine {
         let base = sampleSeverity(luck: luck)
         var final = base
         var downgraded = false
+        var concealmentApplied = false
+
+        if let concealment {
+            let mult = await concealment.currentMultiplier(now: wallDate)
+            if mult < 1.0, (base == .s3 || base == .s2), Double.random(in: 0...1) > mult {
+                final = .s1
+                concealmentApplied = true
+            }
+        }
 
         if base == .s3, let last = lastS3Date, let hours = hoursBetween(last, wallDate), hours < 24 {
             final = .s2
@@ -100,6 +118,10 @@ public actor EventEngine {
             )
         }
 
+        if let defense, !protected, (final == .s3 || final == .s2), await defense.consume() {
+            protected = true
+        }
+
         let report = protected || final == .s2
 
         if !protected && base == .s3 {
@@ -116,7 +138,8 @@ public actor EventEngine {
             downgradedDueToLimit: downgraded,
             preventedByProtection: protected,
             rescueDeadline: rescueDeadline,
-            battleReportGenerated: report
+            battleReportGenerated: report,
+            concealmentApplied: concealmentApplied
         )
     }
 
