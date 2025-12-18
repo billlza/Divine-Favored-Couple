@@ -20,10 +20,8 @@ public struct ShopConfig: Codable, Sendable {
 
 public enum ConfigLoader {
     public static func load<T: Decodable>(_ type: T.Type, named name: String) -> T? {
-        let fm = FileManager.default
-        // Resource is processed into bundle for GameKernel.
-        let url = Bundle.module.url(forResource: name, withExtension: "json")
-        guard let url, let data = try? Data(contentsOf: url) else { return nil }
+        guard let url = Bundle.module.url(forResource: name, withExtension: "json"),
+              let data = try? Data(contentsOf: url) else { return nil }
         return try? JSONDecoder().decode(T.self, from: data)
     }
 }

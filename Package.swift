@@ -22,17 +22,29 @@ let package = Package(
             path: "Sources/GameKernel",
             resources: [
                 .process("Config")
+            ],
+            swiftSettings: [
+                .swiftLanguageMode(.v6)
             ]
         ),
         .executableTarget(
             name: "DivineFavoredCoupleApp",
             dependencies: ["GameKernel"],
-            path: "Sources/DivineFavoredCoupleApp"
+            path: "Sources/DivineFavoredCoupleApp",
+            resources: [
+                .process("Rendering/Shaders.metal")
+            ],
+            swiftSettings: [
+                .swiftLanguageMode(.v6)
+            ]
         ),
         .testTarget(
             name: "DivineFavoredCoupleTests",
             dependencies: ["GameKernel"],
-            path: "Tests/DivineFavoredCoupleTests"
+            path: "Tests/DivineFavoredCoupleTests",
+            swiftSettings: [
+                .swiftLanguageMode(.v6)
+            ]
         )
     ]
 )
