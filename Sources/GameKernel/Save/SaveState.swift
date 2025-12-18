@@ -8,6 +8,7 @@ public struct PlayerState: Codable, Sendable, Equatable {
     public var yBuffer: Double
     public var gachaPity: Int
     public var legendaryPity: Int
+    public var character: CharacterState
 
     public init(
         merit: MeritState = MeritState(),
@@ -16,7 +17,8 @@ public struct PlayerState: Codable, Sendable, Equatable {
         reserve: Double = 0,
         yBuffer: Double = 0,
         gachaPity: Int = 0,
-        legendaryPity: Int = 0
+        legendaryPity: Int = 0,
+        character: CharacterState = CharacterState()
     ) {
         self.merit = merit
         self.luck = luck
@@ -25,15 +27,21 @@ public struct PlayerState: Codable, Sendable, Equatable {
         self.yBuffer = yBuffer
         self.gachaPity = gachaPity
         self.legendaryPity = legendaryPity
+        self.character = character
     }
 }
 
 public struct WorldState: Codable, Sendable, Equatable {
     public var lastS3Date: Date?
     public var rescueDeadline: Date?
-    public init(lastS3Date: Date? = nil, rescueDeadline: Date? = nil) {
+    public var eventCooldowns: [String: Int]
+    public var reports: [EventReport]
+
+    public init(lastS3Date: Date? = nil, rescueDeadline: Date? = nil, eventCooldowns: [String: Int] = [:], reports: [EventReport] = []) {
         self.lastS3Date = lastS3Date
         self.rescueDeadline = rescueDeadline
+        self.eventCooldowns = eventCooldowns
+        self.reports = reports
     }
 }
 
@@ -43,6 +51,20 @@ public struct ShopState: Codable, Sendable, Equatable {
     public init(coupons: Double = 0, vipRate: Double = 0.8) {
         self.coupons = coupons
         self.vipRate = vipRate
+    }
+}
+
+public struct CharacterState: Codable, Sendable, Equatable {
+    public var name: String
+    public var mood: Double
+    public var hp: Double
+    public var equipmentSlots: Int
+
+    public init(name: String = "李清然", mood: Double = 1.0, hp: Double = 1.0, equipmentSlots: Int = 4) {
+        self.name = name
+        self.mood = mood
+        self.hp = hp
+        self.equipmentSlots = equipmentSlots
     }
 }
 

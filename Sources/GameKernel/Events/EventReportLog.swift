@@ -1,6 +1,6 @@
 import Foundation
 
-public struct EventReport: Sendable, Equatable {
+public struct EventReport: Sendable, Equatable, Codable {
     public let timestamp: Date
     public let original: EventSeverity
     public let final: EventSeverity

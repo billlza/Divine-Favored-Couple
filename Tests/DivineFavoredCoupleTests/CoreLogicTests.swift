@@ -112,4 +112,18 @@ final class CoreLogicTests: XCTestCase {
         XCTAssertEqual(result.finalSeverity, EventSeverity.s1)
         XCTAssertTrue(result.concealmentApplied)
     }
+
+    func testPaymentDebugToggle() async throws {
+        let payment = PaymentDebugService(enabled: false)
+        let blocked = await payment.process(amount: 10)
+        switch blocked {
+        case .blocked(let reason):
+            XCTAssertEqual(reason, "debug-payment-disabled")
+        default:
+            XCTFail("Expected blocked")
+        }
+        await payment.setEnabled(true)
+        let success = await payment.process(amount: 10)
+        if case .blocked = success { XCTFail("Expected success") }
+    }
 }
