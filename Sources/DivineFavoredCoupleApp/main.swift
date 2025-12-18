@@ -188,10 +188,10 @@ struct DivineFavoredCoupleApp {
         )
         let save = SaveState(player: player, world: WorldState(), shop: ShopState(coupons: 20, vipRate: 0.8))
         let url = URL(fileURLWithPath: "/tmp/dfc_save.json")
-        let manager = SaveManager()
+        let saveService = SaveService()
         do {
-            try await manager.save(state: save, to: url)
-            let loaded = try await manager.load(from: url)
+            try await saveService.save(state: save, to: url)
+            let loaded = try await saveService.load(from: url)
             print("Save/Load OK:", loaded.player.merit.gongde, "coupons:", loaded.shop.coupons)
         } catch {
             print("Save/Load failed:", error)

@@ -13,6 +13,8 @@ public struct EventRollResult: CustomStringConvertible, Sendable {
     public let preventedByProtection: Bool
     /// S3 无保护时的救援截止时间（12h 窗口）。
     public let rescueDeadline: Date?
+    /// 是否触发离线战报（仅当有保护或降级）—占位。
+    public let battleReportGenerated: Bool
 
     public var description: String {
         var parts: [String] = []
@@ -23,6 +25,7 @@ public struct EventRollResult: CustomStringConvertible, Sendable {
         if consumedReserve > 0 { parts.append("reserve-\(consumedReserve)") }
         if consumedY > 0 { parts.append("y-\(consumedY)") }
         if let rescueDeadline { parts.append("rescue-deadline=\(rescueDeadline)") }
+        if battleReportGenerated { parts.append("report") }
         return parts.joined(separator: " ")
     }
 }
@@ -97,6 +100,8 @@ public actor EventEngine {
             )
         }
 
+        let report = protected || final == .s2
+
         if !protected && base == .s3 {
             rescueDeadline = wallDate.addingTimeInterval(43_200) // 12h
         } else if protected {
@@ -110,7 +115,8 @@ public actor EventEngine {
             consumedY: consumedY,
             downgradedDueToLimit: downgraded,
             preventedByProtection: protected,
-            rescueDeadline: rescueDeadline
+            rescueDeadline: rescueDeadline,
+            battleReportGenerated: report
         )
     }
 
