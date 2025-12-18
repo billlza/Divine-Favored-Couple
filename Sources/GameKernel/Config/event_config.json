@@ -1,0 +1,10 @@
+{
+  "weights": {
+    "s0": 0.6,
+    "s1": 0.25,
+    "s2": 0.12,
+    "s3": 0.03
+  },
+  "rescueHours": 12,
+  "s3CooldownHours": 24
+}

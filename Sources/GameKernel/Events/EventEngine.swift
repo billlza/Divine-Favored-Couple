@@ -43,6 +43,8 @@ public actor EventEngine {
     private let defense: DefenseService?
     private let reportLog: EventReportLog?
     private let randomDouble: @Sendable (ClosedRange<Double>) -> Double
+    private let rescueHours: Int
+    private let s3CooldownHours: Int
 
     public init(
         calendar: Calendar,
@@ -50,30 +52,9 @@ public actor EventEngine {
         defense: DefenseService? = nil,
         reportLog: EventReportLog? = nil,
         randomDouble: @escaping @Sendable (ClosedRange<Double>) -> Double = { Double.random(in: $0) },
-        severityProvider: @escaping @Sendable (LuckScore) -> EventSeverity = { luck in
-            // 默认权重采样
-            let weights: [EventSeverity: Double] = [
-                .s0: 0.6 * luck.goodMultiplier,
-                .s1: 0.25,
-                .s2: 0.12,
-                .s3: 0.03 * luck.badMultiplier
-            ]
-
-            let total = weights.values.reduce(0, +)
-            guard total > 0 else { return .s0 }
-
-            let roll = Double.random(in: 0...total)
-            var accumulator: Double = 0
-
-            for (severity, weight) in weights {
-                accumulator += weight
-                if roll <= accumulator {
-                    return severity
-                }
-            }
-
-            return .s0
-        }
+        rescueHours: Int = 12,
+        s3CooldownHours: Int = 24,
+        severityProvider: @escaping @Sendable (LuckScore) -> EventSeverity = defaultSeverityProvider
     ) {
         self.calendar = calendar
         self.severityProvider = severityProvider
@@ -81,6 +62,8 @@ public actor EventEngine {
         self.defense = defense
         self.reportLog = reportLog
         self.randomDouble = randomDouble
+        self.rescueHours = rescueHours
+        self.s3CooldownHours = s3CooldownHours
     }
 
     /// 离线或在线单次事件判定。
@@ -103,7 +86,7 @@ public actor EventEngine {
             }
         }
 
-        if base == .s3, let last = lastS3Date, let hours = hoursBetween(last, wallDate), hours < 24 {
+        if base == .s3, let last = lastS3Date, let hours = hoursBetween(last, wallDate), hours < s3CooldownHours {
             final = .s2
             downgraded = true
         }
@@ -131,7 +114,7 @@ public actor EventEngine {
         let report = protected || final == .s2
 
         if !protected && base == .s3 {
-            rescueDeadline = wallDate.addingTimeInterval(43_200) // 12h
+            rescueDeadline = wallDate.addingTimeInterval(TimeInterval(rescueHours * 3600))
         } else if protected {
             rescueDeadline = nil
         }
@@ -180,6 +163,30 @@ public actor EventEngine {
 
     private func sampleSeverity(luck: LuckScore) -> EventSeverity {
         severityProvider(luck)
+    }
+
+    public static func defaultSeverityProvider(luck: LuckScore) -> EventSeverity {
+        let weights: [EventSeverity: Double] = [
+            .s0: 0.6 * luck.goodMultiplier,
+            .s1: 0.25,
+            .s2: 0.12,
+            .s3: 0.03 * luck.badMultiplier
+        ]
+
+        let total = weights.values.reduce(0, +)
+        guard total > 0 else { return .s0 }
+
+        let roll = Double.random(in: 0...total)
+        var accumulator: Double = 0
+
+        for (severity, weight) in weights {
+            accumulator += weight
+            if roll <= accumulator {
+                return severity
+            }
+        }
+
+        return .s0
     }
 
     private func protectIfPossible(

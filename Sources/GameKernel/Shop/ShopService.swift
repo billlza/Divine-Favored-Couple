@@ -40,7 +40,21 @@ public enum PurchaseOutcome: CustomStringConvertible, Sendable {
 
 /// 商店结算服务：支持功德 + 天机券，天机券不触发负债，包含轻微记账代价。
 public actor ShopService {
-    public init() {}
+    public init(config: ShopConfig? = nil) {
+        if let config {
+            defaultVipRate = config.vipRate
+            ledgerPenaltyRate = config.ledgerPenaltyRate
+        } else if let loaded: ShopConfig = ConfigLoader.load(ShopConfig.self, named: "shop_config") {
+            defaultVipRate = loaded.vipRate
+            ledgerPenaltyRate = loaded.ledgerPenaltyRate
+        } else {
+            defaultVipRate = 0.8
+            ledgerPenaltyRate = 0.02
+        }
+    }
+
+    private let defaultVipRate: Double
+    private let ledgerPenaltyRate: Double
 
     /// 购买。preferCoupons 表示优先使用天机券（按 VIP 汇率），否则优先功德并用券兜底避免越过 DebtLimit。
     public func purchase(
@@ -56,6 +70,7 @@ public actor ShopService {
         let capacity = wallet.meritCapacity
 
         if preferCoupons {
+            if wallet.vipRate == 0 { wallet.vipRate = defaultVipRate }
             couponAmount = min(wallet.coupons, cost * wallet.vipRate)
             meritAmount = cost - couponAmount
             // 如果仍超出功德可用额度，尝试用剩余券补足
@@ -70,6 +85,7 @@ public actor ShopService {
             meritAmount = cost
             if meritAmount > capacity {
                 let shortfall = meritAmount - capacity
+                if wallet.vipRate == 0 { wallet.vipRate = defaultVipRate }
                 let couponNeeded = shortfall * wallet.vipRate
                 if couponNeeded > wallet.coupons {
                     return .insufficientCoupons
@@ -98,7 +114,7 @@ public actor ShopService {
             }
         }
 
-        let ledgerPenalty = couponAmount > 0 ? couponAmount * 0.02 : 0
+        let ledgerPenalty = couponAmount > 0 ? couponAmount * ledgerPenaltyRate : 0
         return .success(spentG: meritAmount, spentCoupons: couponAmount, ledgerPenalty: ledgerPenalty)
     }
 }

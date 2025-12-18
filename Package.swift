@@ -19,7 +19,10 @@ let package = Package(
     targets: [
         .target(
             name: "GameKernel",
-            path: "Sources/GameKernel"
+            path: "Sources/GameKernel",
+            resources: [
+                .process("Config")
+            ]
         ),
         .executableTarget(
             name: "DivineFavoredCoupleApp",
