@@ -74,8 +74,13 @@ final class CoreLogicTests: XCTestCase {
         XCTAssertEqual(first.originalSeverity, .s3)
         XCTAssertTrue(first.preventedByProtection)
         XCTAssertLessThan(reserve, 200)
+        XCTAssertNil(first.rescueDeadline)
 
-        // Next hour still within 24h -> downgraded to S2
+        // Deplete protection to trigger rescue window
+        reserve = 0
+        y = 0
+
+        // Next hour still within 24h -> downgraded to S2 and rescue window created
         let second = await engine.rollEvent(
             wallDate: start.addingTimeInterval(3600),
             luck: luck,
@@ -84,5 +89,6 @@ final class CoreLogicTests: XCTestCase {
         )
         XCTAssertEqual(second.originalSeverity, .s3)
         XCTAssertEqual(second.finalSeverity, .s2)
+        XCTAssertNotNil(second.rescueDeadline)
     }
 }

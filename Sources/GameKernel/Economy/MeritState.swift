@@ -1,7 +1,7 @@
 import Foundation
 
 /// Core economy state for功德（G）与相关上限。
-public struct MeritState: Sendable {
+public struct MeritState: Sendable, Codable, Equatable {
     public private(set) var gongde: Double
     public var cap: Double
     public var daily: Double

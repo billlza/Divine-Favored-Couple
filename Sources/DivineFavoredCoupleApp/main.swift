@@ -175,5 +175,26 @@ struct DivineFavoredCoupleApp {
         for entry in snapshot {
             print("Inventory:", entry.id, "rarity:", entry.rarity, "count:", entry.count, "stackLimit:", entry.stackLimit)
         }
+
+        // 存档示例
+        let player = PlayerState(
+            merit: MeritState(gongde: 200, cap: 500, daily: 120, reserve: 150, yBuffer: 30),
+            luck: LuckMapping(positiveScale: 500, negativeScale: 120).map(gongde: 200),
+            backlash: BacklashState(points: 2),
+            reserve: 150,
+            yBuffer: 30,
+            gachaPity: 0,
+            legendaryPity: 0
+        )
+        let save = SaveState(player: player, world: WorldState(), shop: ShopState(coupons: 20, vipRate: 0.8))
+        let url = URL(fileURLWithPath: "/tmp/dfc_save.json")
+        let manager = SaveManager()
+        do {
+            try await manager.save(state: save, to: url)
+            let loaded = try await manager.load(from: url)
+            print("Save/Load OK:", loaded.player.merit.gongde, "coupons:", loaded.shop.coupons)
+        } catch {
+            print("Save/Load failed:", error)
+        }
     }
 }

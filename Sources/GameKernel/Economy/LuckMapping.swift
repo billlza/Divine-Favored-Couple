@@ -1,7 +1,7 @@
 import Foundation
 
 /// Luck score [-100, 100] derived from功德。
-public struct LuckScore: Equatable, Sendable {
+public struct LuckScore: Equatable, Sendable, Codable {
     public let value: Double
 
     public init(clamped value: Double) {

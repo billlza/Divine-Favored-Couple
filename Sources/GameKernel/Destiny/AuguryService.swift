@@ -1,7 +1,7 @@
 import Foundation
 
 /// 反噬状态：每次付费推演累积 R 点，影响 LS_effective。
-public struct BacklashState: Sendable {
+public struct BacklashState: Sendable, Codable, Equatable {
     public private(set) var points: Int
 
     public init(points: Int = 0) {

@@ -11,6 +11,8 @@ public struct EventRollResult: CustomStringConvertible, Sendable {
     public let consumedY: Double
     public let downgradedDueToLimit: Bool
     public let preventedByProtection: Bool
+    /// S3 无保护时的救援截止时间（12h 窗口）。
+    public let rescueDeadline: Date?
 
     public var description: String {
         var parts: [String] = []
@@ -20,6 +22,7 @@ public struct EventRollResult: CustomStringConvertible, Sendable {
         if preventedByProtection { parts.append("protected") }
         if consumedReserve > 0 { parts.append("reserve-\(consumedReserve)") }
         if consumedY > 0 { parts.append("y-\(consumedY)") }
+        if let rescueDeadline { parts.append("rescue-deadline=\(rescueDeadline)") }
         return parts.joined(separator: " ")
     }
 }
@@ -28,6 +31,7 @@ public struct EventRollResult: CustomStringConvertible, Sendable {
 public actor EventEngine {
     private let calendar: Calendar
     private var lastS3Date: Date?
+    private var rescueDeadline: Date?
     private let severityProvider: @Sendable (LuckScore) -> EventSeverity
 
     public init(
@@ -93,13 +97,20 @@ public actor EventEngine {
             )
         }
 
+        if !protected && base == .s3 {
+            rescueDeadline = wallDate.addingTimeInterval(43_200) // 12h
+        } else if protected {
+            rescueDeadline = nil
+        }
+
         return EventRollResult(
             originalSeverity: base,
             finalSeverity: final,
             consumedReserve: consumedReserve,
             consumedY: consumedY,
             downgradedDueToLimit: downgraded,
-            preventedByProtection: protected
+            preventedByProtection: protected,
+            rescueDeadline: rescueDeadline
         )
     }
 
