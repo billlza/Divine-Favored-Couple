@@ -42,12 +42,14 @@ public actor EventEngine {
     private let concealment: ConcealmentService?
     private let defense: DefenseService?
     private let reportLog: EventReportLog?
+    private let randomDouble: @Sendable (ClosedRange<Double>) -> Double
 
     public init(
         calendar: Calendar,
         concealment: ConcealmentService? = nil,
         defense: DefenseService? = nil,
         reportLog: EventReportLog? = nil,
+        randomDouble: @escaping @Sendable (ClosedRange<Double>) -> Double = { Double.random(in: $0) },
         severityProvider: @escaping @Sendable (LuckScore) -> EventSeverity = { luck in
             // 默认权重采样
             let weights: [EventSeverity: Double] = [
@@ -78,6 +80,7 @@ public actor EventEngine {
         self.concealment = concealment
         self.defense = defense
         self.reportLog = reportLog
+        self.randomDouble = randomDouble
     }
 
     /// 离线或在线单次事件判定。
@@ -94,7 +97,7 @@ public actor EventEngine {
 
         if let concealment {
             let mult = await concealment.currentMultiplier(now: wallDate)
-            if mult < 1.0, (base == .s3 || base == .s2), Double.random(in: 0...1) > mult {
+            if mult < 1.0, (base == .s3 || base == .s2), randomDouble(0...1) > mult {
                 final = .s1
                 concealmentApplied = true
             }

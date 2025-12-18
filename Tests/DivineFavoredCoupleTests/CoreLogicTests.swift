@@ -91,4 +91,25 @@ final class CoreLogicTests: XCTestCase {
         XCTAssertEqual(second.finalSeverity, .s2)
         XCTAssertNotNil(second.rescueDeadline)
     }
+
+    func testConcealmentForcesDowngrade() async throws {
+        let concealment = ConcealmentService()
+        await concealment.activate(evasionMultiplier: 0.5, duration: nil)
+        var reserve: Double = 0
+        var y: Double = 0
+        let engine = EventEngine(
+            calendar: .current,
+            concealment: concealment,
+            randomDouble: { _ in 1.0 }, // force concealment check to trigger downgrade
+            severityProvider: { _ in .s3 }
+        )
+        let result = await engine.rollEvent(
+            wallDate: Date(),
+            luck: LuckScore(clamped: 0),
+            reserve: &reserve,
+            yBuffer: &y
+        )
+        XCTAssertEqual(result.finalSeverity, EventSeverity.s1)
+        XCTAssertTrue(result.concealmentApplied)
+    }
 }
