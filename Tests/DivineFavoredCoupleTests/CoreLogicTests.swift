@@ -61,4 +61,28 @@ final class CoreLogicTests: XCTestCase {
         }
         XCTAssertTrue(legendaryFound, "Legendary should appear due to hard pity by the 10th pull.")
     }
+
+    func testEventEngineS3LimitAndProtection() async throws {
+        var reserve: Double = 200
+        var y: Double = 150
+        let engine = EventEngine(calendar: .current, severityProvider: { _ in .s3 })
+        let luck = LuckScore(clamped: 0)
+        let start = Date()
+
+        // First S3 should consume reserve
+        let first = await engine.rollEvent(wallDate: start, luck: luck, reserve: &reserve, yBuffer: &y)
+        XCTAssertEqual(first.originalSeverity, .s3)
+        XCTAssertTrue(first.preventedByProtection)
+        XCTAssertLessThan(reserve, 200)
+
+        // Next hour still within 24h -> downgraded to S2
+        let second = await engine.rollEvent(
+            wallDate: start.addingTimeInterval(3600),
+            luck: luck,
+            reserve: &reserve,
+            yBuffer: &y
+        )
+        XCTAssertEqual(second.originalSeverity, .s3)
+        XCTAssertEqual(second.finalSeverity, .s2)
+    }
 }

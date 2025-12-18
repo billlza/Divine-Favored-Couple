@@ -28,9 +28,37 @@ public struct EventRollResult: CustomStringConvertible, Sendable {
 public actor EventEngine {
     private let calendar: Calendar
     private var lastS3Date: Date?
+    private let severityProvider: @Sendable (LuckScore) -> EventSeverity
 
-    public init(calendar: Calendar) {
+    public init(
+        calendar: Calendar,
+        severityProvider: @escaping @Sendable (LuckScore) -> EventSeverity = { luck in
+            // 默认权重采样
+            let weights: [EventSeverity: Double] = [
+                .s0: 0.6 * luck.goodMultiplier,
+                .s1: 0.25,
+                .s2: 0.12,
+                .s3: 0.03 * luck.badMultiplier
+            ]
+
+            let total = weights.values.reduce(0, +)
+            guard total > 0 else { return .s0 }
+
+            let roll = Double.random(in: 0...total)
+            var accumulator: Double = 0
+
+            for (severity, weight) in weights {
+                accumulator += weight
+                if roll <= accumulator {
+                    return severity
+                }
+            }
+
+            return .s0
+        }
+    ) {
         self.calendar = calendar
+        self.severityProvider = severityProvider
     }
 
     /// 离线或在线单次事件判定。
@@ -101,28 +129,7 @@ public actor EventEngine {
     }
 
     private func sampleSeverity(luck: LuckScore) -> EventSeverity {
-        // 基础权重（可后续数据驱动）
-        let weights: [EventSeverity: Double] = [
-            .s0: 0.6 * luck.goodMultiplier,
-            .s1: 0.25,
-            .s2: 0.12,
-            .s3: 0.03 * luck.badMultiplier
-        ]
-
-        let total = weights.values.reduce(0, +)
-        guard total > 0 else { return .s0 }
-
-        let roll = Double.random(in: 0...total)
-        var accumulator: Double = 0
-
-        for (severity, weight) in weights {
-            accumulator += weight
-            if roll <= accumulator {
-                return severity
-            }
-        }
-
-        return .s0
+        severityProvider(luck)
     }
 
     private func protectIfPossible(
