@@ -41,11 +41,13 @@ public actor EventEngine {
     private let severityProvider: @Sendable (LuckScore) -> EventSeverity
     private let concealment: ConcealmentService?
     private let defense: DefenseService?
+    private let reportLog: EventReportLog?
 
     public init(
         calendar: Calendar,
         concealment: ConcealmentService? = nil,
         defense: DefenseService? = nil,
+        reportLog: EventReportLog? = nil,
         severityProvider: @escaping @Sendable (LuckScore) -> EventSeverity = { luck in
             // 默认权重采样
             let weights: [EventSeverity: Double] = [
@@ -75,6 +77,7 @@ public actor EventEngine {
         self.severityProvider = severityProvider
         self.concealment = concealment
         self.defense = defense
+        self.reportLog = reportLog
     }
 
     /// 离线或在线单次事件判定。
@@ -83,7 +86,7 @@ public actor EventEngine {
         luck: LuckScore,
         reserve: inout Double,
         yBuffer: inout Double
-    ) -> EventRollResult {
+    ) async -> EventRollResult {
         let base = sampleSeverity(luck: luck)
         var final = base
         var downgraded = false
@@ -130,6 +133,10 @@ public actor EventEngine {
             rescueDeadline = nil
         }
 
+        if report, let reportLog {
+            await reportLog.append(EventReport(timestamp: wallDate, original: base, final: final, rescueDeadline: rescueDeadline))
+        }
+
         return EventRollResult(
             originalSeverity: base,
             finalSeverity: final,
@@ -150,13 +157,13 @@ public actor EventEngine {
         luck: LuckScore,
         reserve: inout Double,
         yBuffer: inout Double
-    ) -> [EventRollResult] {
+    ) async -> [EventRollResult] {
         var results: [EventRollResult] = []
         var cursor = startDate
 
         for _ in 0..<hours {
             cursor = cursor.addingTimeInterval(3600)
-            let result = rollEvent(
+            let result = await rollEvent(
                 wallDate: cursor,
                 luck: luck,
                 reserve: &reserve,

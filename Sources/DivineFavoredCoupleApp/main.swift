@@ -83,7 +83,11 @@ struct DivineFavoredCoupleApp {
         let luckMapping = LuckMapping(positiveScale: economy.cap, negativeScale: abs(economy.debtLimit))
         let luck = luckMapping.map(gongde: economy.gongde)
 
-        let engine = EventEngine(calendar: Calendar.current)
+        let reportLog = EventReportLog()
+        let concealment = ConcealmentService()
+        await concealment.activate(evasionMultiplier: 0.6, duration: 3 * 3600)
+        let defense = DefenseService(initialCharges: 1)
+        let engine = EventEngine(calendar: Calendar.current, concealment: concealment, defense: defense, reportLog: reportLog)
         let start = Date()
         let results = await engine.simulateOffline(
             startDate: start,
@@ -97,6 +101,11 @@ struct DivineFavoredCoupleApp {
             print("Hour+\(index+1):", result.description)
         }
         print("Reserve remaining:", economy.reserve, "Y buffer remaining:", economy.yBuffer)
+
+        let reports = await reportLog.snapshot()
+        for entry in reports {
+            print("Report:", entry.original.rawValue, "->", entry.final.rawValue, "deadline:", String(describing: entry.rescueDeadline))
+        }
     }
 
     private static func demoAugury() async {
