@@ -1,0 +1,12 @@
+{
+  "rarities": [
+    {"name": "common", "weight": 82.0},
+    {"name": "rare", "weight": 15.0},
+    {"name": "epic", "weight": 2.7},
+    {"name": "legendary", "weight": 0.3}
+  ],
+  "epicPity": 10,
+  "legendaryPity": 90,
+  "legendarySoftPityStart": 75,
+  "legendarySoftPitySlope": 0.25
+}
