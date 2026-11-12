@@ -1,0 +1,60 @@
+{
+  "kind": "regional_environment_art",
+  "geometry_reopened": true,
+  "source_hut_objects_preserved": 469,
+  "stable_interaction_markers": {
+    "DoorRetreat": "wanqing_hut.door",
+    "WashingInteraction": "wanqing_hut.washing",
+    "ForestApproach": "wanqing_hut.forest_edge",
+    "IndoorSafetyPoint": "wanqing_hut.indoor_safety"
+  },
+  "terrain_tiles": 15,
+  "bounds_metres": [
+    [
+      -1250.0,
+      1250.0
+    ],
+    [
+      -650.0,
+      2240.0
+    ],
+    [
+      -22.0,
+      746.5770263671875
+    ]
+  ],
+  "max_foundation_gap_m": 0.000244140625,
+  "max_core_route_height_difference_m": 0.000244140625,
+  "river_cross_section_probes": 1923,
+  "minimum_sampled_water_core_clearance_m": 1.0606689453125,
+  "max_rooted_crag_base_minus_ground_m": -1.944000244140625,
+  "footbridge_ends_checked": true,
+  "forest_source_point_count": 18290,
+  "packed_textures": [],
+  "runtime_walk_verified": false,
+  "renders": {
+    "Wanqing_valley.png": {
+      "dimensions": [
+        2160,
+        1280
+      ],
+      "sha256": "3fb7169c68bbdc872989315c533ed64598f30778447e81b89c0857173efa56da"
+    },
+    "Wanqing_hut.png": {
+      "dimensions": [
+        1650,
+        1100
+      ],
+      "sha256": "12dc6a998e4fff785ee61acea1dfdfb0c42ae1c63f27564a8fac8274beb8b057"
+    },
+    "Wanqing_waterfall.png": {
+      "dimensions": [
+        1650,
+        1100
+      ],
+      "sha256": "7554a0d0394b423a9a185cb437bfdfae8f51908260f338a54b65789ad8db7f72"
+    }
+  },
+  "blender_version": "5.2.1 LTS",
+  "blend_sha256": "3e64c34991452baa2658c3087e7be8d5fc1000fa66f201ba7001effdcc230871"
+}

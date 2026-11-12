@@ -1,0 +1,94 @@
+{
+  "blender": "5.2.1 LTS",
+  "blend_sha256": "1afe21e51b0206483ee7bd87a459e15ecf88a3fbe16b16e42dc1b0f5407a6c7d",
+  "source_sha256": "2fe9a8a74308112f4959de115b6b320130e046a7aca1a4a462597903fd8388e0",
+  "reference_sha256": "2b23ae4010ef63b544829053aac2866fc4bd2ed53870b03738a9f81e4857113c",
+  "reference_camera_preserved": true,
+  "previous_shape_restores_exactly": true,
+  "max_revision_displacement_blender_units": 0.02415933459997177,
+  "approximate_projection": {
+    "jaw": {
+      "manual_x_px": {
+        "image_left_jaw_upper_turn": 352,
+        "image_left_jaw_to_chin": 390,
+        "image_right_jaw_upper_turn": 514,
+        "image_right_jaw_to_chin": 484
+      },
+      "previous_x_px": {
+        "image_left_jaw_upper_turn": 350.0,
+        "image_left_jaw_to_chin": 378.0,
+        "image_right_jaw_upper_turn": 522.0,
+        "image_right_jaw_to_chin": 495.5
+      },
+      "revised_x_px": {
+        "image_left_jaw_upper_turn": 352.5,
+        "image_left_jaw_to_chin": 388.0,
+        "image_right_jaw_upper_turn": 515.0,
+        "image_right_jaw_to_chin": 483.0
+      },
+      "previous_mean_absolute_x_error_px": 8.375,
+      "revised_mean_absolute_x_error_px": 1.125
+    },
+    "eye_corners": {
+      "manual_x_px": {
+        "image_left_eye_outer_canthus": 350,
+        "image_left_eye_inner_canthus": 405,
+        "image_right_eye_inner_canthus": 465,
+        "image_right_eye_outer_canthus": 518
+      },
+      "previous_x_px": {
+        "image_left_eye_outer_canthus": 351.5,
+        "image_left_eye_inner_canthus": 408.5,
+        "image_right_eye_inner_canthus": 459.5,
+        "image_right_eye_outer_canthus": 513.5
+      },
+      "revised_x_px": {
+        "image_left_eye_outer_canthus": 350.5,
+        "image_left_eye_inner_canthus": 405.5,
+        "image_right_eye_inner_canthus": 464.0,
+        "image_right_eye_outer_canthus": 518.0
+      },
+      "previous_mean_absolute_x_error_px": 3.75,
+      "revised_mean_absolute_x_error_px": 0.5
+    },
+    "scope": "Two dimensional x coordinates against manual landmarks; not an identity score."
+  },
+  "groom": {
+    "hair_curves": 25576,
+    "eyelash_curves": 82,
+    "topknot_contact_pairs": [
+      350,
+      428
+    ]
+  },
+  "renders": {
+    "Portrait.png": {
+      "resolution": [
+        1440,
+        1740
+      ],
+      "sha256": "3badf47637e6b907b09c0a2c68252fcda49bd87b6ddff551a666097c15a0aa90"
+    },
+    "Matched_view.png": {
+      "resolution": [
+        1170,
+        960
+      ],
+      "sha256": "262171456f7d7733d905ecb0a9e62cb5852220afe5966211d57707f08b13c15d"
+    },
+    "Quarter.png": {
+      "resolution": [
+        1200,
+        1334
+      ],
+      "sha256": "ac6ba11395eab2525d1e91b7b3a3211d13e56afa8cf2eb24b9bbde6472942627"
+    },
+    "Profile_clay.png": {
+      "resolution": [
+        1024,
+        1160
+      ],
+      "sha256": "203864f98de9df9b11d7ec9bb5682bff5081d213434bff320343d4e949fdc222"
+    }
+  }
+}

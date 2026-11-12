@@ -1,0 +1,460 @@
+{
+  "schema_version": 1,
+  "purpose": "Independent manual landmarks for photo-constrained fitting; not an identity score or calibrated ground truth",
+  "source_image": {
+    "path": "LiQingran/Character3D/Deliverables/HeadShoulders_2026-09-30/Preview/Original_Reference.png",
+    "sha256": "2b23ae4010ef63b544829053aac2866fc4bd2ed53870b03738a9f81e4857113c",
+    "width_px": 780,
+    "height_px": 640
+  },
+  "comparison_image": {
+    "path": "LiQingran/Character3D/Deliverables/HeadShoulders_2026-09-29/Preview/Reference_Comparison.png",
+    "sha256": "2bcc76fcbe2ae81eac63442ee13e8cabd94f93e0cdd7fa428e200406d0528b96"
+  },
+  "coordinate_system": {
+    "origin": "top_left",
+    "x_positive": "right",
+    "y_positive": "down",
+    "units": "original_source_pixels",
+    "left_right_convention": "image-left/image-right, not anatomical left/right"
+  },
+  "method": {
+    "type": "manual_visual_estimation",
+    "automatic_landmark_outputs_consulted": false,
+    "inspection": "Original image plus in-memory magnified crops; no source image pixels or source files changed",
+    "uncertainty_interpretation": "Per-axis approximate plus/minus pixels for manual placement and feature ambiguity; not a statistical confidence interval",
+    "point_count": 28
+  },
+  "limitations": [
+    "Comparison render uses only an approximate camera match and different lighting; observed differences are not a calibrated 3D error decomposition.",
+    "Occluded eyebrow endpoints are weak inferred coordinates and should not be used as hard fitting constraints.",
+    "Do not symmetrize the two eyes or mouth corners: preserve the visible head tilt and asymmetry.",
+    "Jaw samples are image contour samples, not asserted anatomical gonion locations.",
+    "Nose tip is ambiguous under the strong source highlight; the estimate is not the brightest pixel.",
+    "Coordinates do not establish facial identity similarity and do not validate unseen side or back geometry."
+  ],
+  "points": [
+    {
+      "id": "image_left_eye_outer_canthus",
+      "group": "eyes",
+      "x_px": 350,
+      "y_px": 353,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "画面左眼外眼角，按可见眼裂端点，不含延伸睫毛尖。"
+    },
+    {
+      "id": "image_left_eye_inner_canthus",
+      "group": "eyes",
+      "x_px": 405,
+      "y_px": 352,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "画面左眼内眼角；小黑区使端点有数像素歧义。"
+    },
+    {
+      "id": "image_left_eye_upper_lid_extreme",
+      "group": "eyes",
+      "x_px": 378,
+      "y_px": 337,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "画面左眼眼裂上缘最高处；不是上方眼影边界。"
+    },
+    {
+      "id": "image_left_eye_lower_lid_extreme",
+      "group": "eyes",
+      "x_px": 377,
+      "y_px": 359,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "画面左眼眼裂下缘最低处；不取更下方粉色眼袋边缘。"
+    },
+    {
+      "id": "image_left_pupil_center",
+      "group": "eyes",
+      "x_px": 380,
+      "y_px": 346,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "瞳孔/虹膜中心的人工近似，避开白色反光点。"
+    },
+    {
+      "id": "image_right_eye_inner_canthus",
+      "group": "eyes",
+      "x_px": 465,
+      "y_px": 340,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "画面右眼内眼角，黑色内眼角与眼影边界略混合。"
+    },
+    {
+      "id": "image_right_eye_outer_canthus",
+      "group": "eyes",
+      "x_px": 518,
+      "y_px": 330,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "画面右眼外眼角；不取外侧发丝或眼线延长端。"
+    },
+    {
+      "id": "image_right_eye_upper_lid_extreme",
+      "group": "eyes",
+      "x_px": 485,
+      "y_px": 317,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "画面右眼眼裂上缘最高处。"
+    },
+    {
+      "id": "image_right_eye_lower_lid_extreme",
+      "group": "eyes",
+      "x_px": 486,
+      "y_px": 339,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "画面右眼眼裂下缘最低处，原图存在模糊和亮部。"
+    },
+    {
+      "id": "image_right_pupil_center",
+      "group": "eyes",
+      "x_px": 484,
+      "y_px": 328,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "瞳孔/虹膜中心的人工近似，不取最亮反光点。"
+    },
+    {
+      "id": "image_left_brow_outer_end",
+      "group": "eyebrows",
+      "x_px": 344,
+      "y_px": 324,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 10,
+        "y": 9
+      },
+      "visibility": "inferred_under_hair",
+      "note_zh": "画面左眉外端被刘海遮挡；只是弱约束估计，不应硬锁。"
+    },
+    {
+      "id": "image_left_brow_inner_end",
+      "group": "eyebrows",
+      "x_px": 408,
+      "y_px": 312,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 10,
+        "y": 9
+      },
+      "visibility": "inferred_under_hair",
+      "note_zh": "画面左眉内端被发丝遮挡，不能把刘海尖端当眉端。"
+    },
+    {
+      "id": "image_right_brow_inner_end",
+      "group": "eyebrows",
+      "x_px": 458,
+      "y_px": 306,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 6,
+        "y": 5
+      },
+      "visibility": "partly_occluded",
+      "note_zh": "画面右眉靠鼻梁端，局部被刘海遮住。"
+    },
+    {
+      "id": "image_right_brow_outer_end",
+      "group": "eyebrows",
+      "x_px": 519,
+      "y_px": 304,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 6,
+        "y": 6
+      },
+      "visibility": "partly_occluded",
+      "note_zh": "画面右眉外端受发丝和暗部遮挡，端点弱于眼角。"
+    },
+    {
+      "id": "nose_tip_apparent_center",
+      "group": "nose",
+      "x_px": 452,
+      "y_px": 395,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 6,
+        "y": 5
+      },
+      "visibility": "ambiguous_highlight",
+      "note_zh": "可见鼻头体块的近似中心，不等同于高光最亮点；不能由单图确定三维最突出点。"
+    },
+    {
+      "id": "image_left_alar_outer",
+      "group": "nose",
+      "x_px": 427,
+      "y_px": 404,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 4,
+        "y": 4
+      },
+      "visibility": "visible",
+      "note_zh": "画面左侧鼻翼外缘，区别于偏内的鼻孔暗点。"
+    },
+    {
+      "id": "image_right_alar_outer",
+      "group": "nose",
+      "x_px": 467,
+      "y_px": 399,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 4,
+        "y": 4
+      },
+      "visibility": "ambiguous_highlight",
+      "note_zh": "画面右侧鼻翼外缘，高光使外边界偏软。"
+    },
+    {
+      "id": "subnasale_apparent",
+      "group": "nose",
+      "x_px": 447,
+      "y_px": 410,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 4,
+        "y": 4
+      },
+      "visibility": "ambiguous_soft_boundary",
+      "note_zh": "鼻底与人中相接的可见近似点，阴影较浅。"
+    },
+    {
+      "id": "image_left_mouth_corner",
+      "group": "mouth",
+      "x_px": 411,
+      "y_px": 440,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "画面左侧口裂终点，避开外扩的暗色唇线晕染。"
+    },
+    {
+      "id": "image_right_mouth_corner",
+      "group": "mouth",
+      "x_px": 486,
+      "y_px": 427,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "画面右侧上扬的口裂终点。"
+    },
+    {
+      "id": "upper_lip_central_contour",
+      "group": "mouth",
+      "x_px": 449,
+      "y_px": 430,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 4,
+        "y": 3
+      },
+      "visibility": "ambiguous_soft_boundary",
+      "note_zh": "红唇上缘的中央转折近似点；唇峰细节模糊，不视为精确丘比特弓形状。"
+    },
+    {
+      "id": "mouth_opening_center",
+      "group": "mouth",
+      "x_px": 448,
+      "y_px": 438,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "口裂中部/细小露齿区域中心，用于检查唇缘相对关系。"
+    },
+    {
+      "id": "lower_lip_lowest_visible",
+      "group": "mouth",
+      "x_px": 447,
+      "y_px": 455,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 3,
+        "y": 3
+      },
+      "visibility": "visible",
+      "note_zh": "可见下唇红唇边缘最低处，不取其下方阴影。"
+    },
+    {
+      "id": "chin_lowest_visible",
+      "group": "jaw_chin",
+      "x_px": 451,
+      "y_px": 498,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 5,
+        "y": 6
+      },
+      "visibility": "ambiguous_soft_boundary",
+      "note_zh": "下巴可见轮廓最低处；颈部色调连续，非清晰物体剪影。"
+    },
+    {
+      "id": "image_left_jaw_upper_turn",
+      "group": "jaw_chin",
+      "x_px": 352,
+      "y_px": 439,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 6,
+        "y": 6
+      },
+      "visibility": "visible",
+      "note_zh": "画面左侧面颊向下颌收束段的采样点，不宣称是解剖下颌角。"
+    },
+    {
+      "id": "image_left_jaw_to_chin",
+      "group": "jaw_chin",
+      "x_px": 390,
+      "y_px": 476,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 5,
+        "y": 5
+      },
+      "visibility": "visible",
+      "note_zh": "画面左侧下颌向下巴过渡的轮廓采样点。"
+    },
+    {
+      "id": "image_right_jaw_upper_turn",
+      "group": "jaw_chin",
+      "x_px": 514,
+      "y_px": 445,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 6,
+        "y": 6
+      },
+      "visibility": "partly_occluded",
+      "note_zh": "画面右侧收束段；细发丝与亮边使皮肤轮廓略有歧义。"
+    },
+    {
+      "id": "image_right_jaw_to_chin",
+      "group": "jaw_chin",
+      "x_px": 484,
+      "y_px": 479,
+      "method": "manual_visual_estimate",
+      "uncertainty_pm_px": {
+        "x": 6,
+        "y": 6
+      },
+      "visibility": "ambiguous_soft_boundary",
+      "note_zh": "画面右侧下颌到下巴的轮廓采样点，受头部倾斜和颈部连接影响。"
+    }
+  ],
+  "comparison_observations": [
+    {
+      "id": "lower_face_contour",
+      "category": [
+        "shape",
+        "lighting_secondary"
+      ],
+      "observation_zh": "原图颊部到下巴是连续收束的柔和轮廓；最终图下巴中央呈突出的块状小面，两侧颌缘的折转更硬，下唇下方到下巴的体块关系也不同。",
+      "fit_implication_zh": "先拟合下颌收束位置、下巴宽高及其与口裂的关系；不能只整体缩放脸宽。单张有光照差异的图不能精确测出深度。"
+    },
+    {
+      "id": "nose_base",
+      "category": [
+        "shape",
+        "lighting_secondary"
+      ],
+      "observation_zh": "最终图鼻头/鼻翼基底显得更宽鼓，两侧鼻孔成为更外露的深色开口；原图鼻翼更收拢，鼻头与鼻梁的转折更小。",
+      "fit_implication_zh": "同时核对鼻翼外缘、鼻底和鼻尖，而非把最亮高光当鼻尖或仅匹配一个鼻点。鼻孔暗度需与真实几何分开检查。"
+    },
+    {
+      "id": "eyelids_and_iris_boundary",
+      "category": [
+        "eyelid_structure",
+        "texture"
+      ],
+      "observation_zh": "最终图上眼缘与内眼角的黑区更粗重，眼睑、虹膜和下眼缘局部糊成一块；原图可见眼裂弧度及虹膜边界更轻、分层更明确。",
+      "fit_implication_zh": "两眼中心对齐不足以说明眼睛正确，需独立核对四个眼角、上下眼裂极值及虹膜中心；睫毛/眼影厚度不得直接转化成眼皮厚度。"
+    },
+    {
+      "id": "mouth_and_lips",
+      "category": [
+        "lip_structure",
+        "shape",
+        "texture_secondary"
+      ],
+      "observation_zh": "最终图唇缘更厚重、上唇起伏显得更鼓，嘴角呈尖锐暗凹；原图口裂更细，唇峰较软，右嘴角上扬与左侧较平的关系更轻微。",
+      "fit_implication_zh": "优先约束嘴角高差、上唇中央轮廓、下唇下缘及口裂；上唇的真实厚度还需灰模/换光确认。"
+    },
+    {
+      "id": "forehead_brow_occlusion",
+      "category": [
+        "hair_shape",
+        "occlusion"
+      ],
+      "observation_zh": "最终图刘海是较粗的分块发束，额头露出和眉尾附近的遮挡关系不同；原图发丝较细，透肤与眉端显露更零碎。这会改变上半脸辨识。",
+      "fit_implication_zh": "眉端遮挡点降权，先建立皮肤头模；不要通过改额骨或眉弓去补错误刘海边界。"
+    },
+    {
+      "id": "face_light_and_albedo",
+      "category": [
+        "lighting",
+        "material"
+      ],
+      "observation_zh": "原图面颊有暖粉渐变、鼻梁/鼻头有明确亮部；最终图大面积肤色偏平，鼻梁和眼下的层次被削弱，鼻孔与唇角暗区反而更突出。",
+      "fit_implication_zh": "需同角度灰模和受控换光区分形体与材质。以上明暗差异不能直接证明鼻梁高度或颧骨深度错误，也不能靠重新投射原图证明几何相似。"
+    }
+  ],
+  "source_files_unchanged": true
+}

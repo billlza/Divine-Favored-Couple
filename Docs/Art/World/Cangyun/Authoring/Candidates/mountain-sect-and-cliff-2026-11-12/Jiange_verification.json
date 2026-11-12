@@ -1,0 +1,45 @@
+{
+  "blender": "5.2.1 LTS",
+  "location": "jiange",
+  "blend_sha256": "b4b33185af7627dd5ff336f073edb9c1c9e86189e24df2f87ce185fd4cef4113",
+  "geometry": {
+    "cavities": [
+      {
+        "id": "jiange.cave_1.threshold",
+        "opening_width_m": 5.16,
+        "opening_height_m": 3.95,
+        "depth_from_threshold_marker_m": 16.847718811035158,
+        "clear_passage_rays": 9
+      },
+      {
+        "id": "jiange.cave_2.threshold",
+        "opening_width_m": 4.66,
+        "opening_height_m": 3.48,
+        "depth_from_threshold_marker_m": 19.131462860107423,
+        "clear_passage_rays": 9
+      }
+    ],
+    "cliff_closed_solid": true,
+    "ledge_probes": 100,
+    "gardens_checked": [
+      "chrysanthemums",
+      "cacti"
+    ]
+  },
+  "renders": {
+    "Jiange_cliff_path": {
+      "size": [
+        1800,
+        1440
+      ],
+      "sha256": "9525c684cd4e64888c0eb9b9aff9ef3c6e3b0605dcee57c0fb22dd87d4423e30"
+    },
+    "Jiange_overlook": {
+      "size": [
+        1560,
+        1040
+      ],
+      "sha256": "329e8b50947593394b2296246df4b721b4ca03da6348547dd8a047134bde4a37"
+    }
+  }
+}

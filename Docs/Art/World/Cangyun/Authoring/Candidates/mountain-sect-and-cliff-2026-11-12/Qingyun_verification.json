@@ -1,0 +1,29 @@
+{
+  "blender": "5.2.1 LTS",
+  "location": "qingyun",
+  "blend_sha256": "e426afc95088445eb707dc5f55308b7463027de03505585e0b7ff579c4bd89fc",
+  "geometry": {
+    "stair_treads": 45,
+    "stair_surface_probes": 135,
+    "maximum_tread_height_error_m": 0.010813293457031303,
+    "exposed_stone_landing_probes": 72,
+    "passage_rays_clear": 12,
+    "gate_to_courtyard_checked": true
+  },
+  "renders": {
+    "Qingyun_approach": {
+      "size": [
+        1800,
+        1500
+      ],
+      "sha256": "4252c56b804f7f35c7107990cf10e54553df7f29d3d513f5c641a660c35725fa"
+    },
+    "Qingyun_courtyard": {
+      "size": [
+        1560,
+        1040
+      ],
+      "sha256": "36580c76a178eb51f7dcf3a4c67cb0c1f5dea86bcd73bd1f21a3e779cdadd8b2"
+    }
+  }
+}
